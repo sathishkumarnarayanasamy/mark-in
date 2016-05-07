@@ -1,12 +1,11 @@
 package com.markin.app.monitor;
 
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -14,9 +13,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.markin.app.monitor.model.DeviceLocation;
+import com.markin.app.monitor.model.Data;
 import com.markin.app.monitor.repo.ObjectLocation;
-import com.markin.app.monitor.util.WebSocketClient;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -41,18 +39,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v)
             {
-                mMap.clear();
+                       mMap.clear();
                 ObjectLocation oLocate = new ObjectLocation();
-                DeviceLocation location = oLocate.getLocationByDevice();
-                if (location !=null)
-                Log.i("Map info",location.getLatitude()+"");
+                Data data = oLocate.getLocationByDevice();
+                if (data !=null)
+                Log.i("Map info",data.deviceLocation.getLatitude()+"");
                 // Add a marker in Sydney and move the camera
-                LatLng sydney = new LatLng(location.getLatitude(),location.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(sydney).title("Device"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                     LatLng sydney = new LatLng(data.deviceLocation.getLatitude(),data.deviceLocation.getLongitude());
+                   mMap.addMarker(new MarkerOptions().position(sydney).title("Device"));
+                 mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
                 mMap.animateCamera( CameraUpdateFactory.zoomTo(10.0f ) );
-                WebSocketClient wsclient = new WebSocketClient();
-                wsclient.listen();
                 // do something
             }
         });
@@ -77,4 +73,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
+    public void refresh(View view){
+ //       mMap.clear();
+        ObjectLocation oLocate = new ObjectLocation();
+        Data data = oLocate.getLocationByDevice();
+        Log.i("Map info", data.deviceLocation.getLatitude()+"");
+        // Add a marker in Sydney and move the camera
+   //     LatLng sydney = new LatLng(location.getLatitude(),location.getLongitude());
+     //   mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+       // mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
 }

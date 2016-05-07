@@ -38,7 +38,7 @@ public class RestClient {
 
         try {
 
-            URL  url = new URL("http://192.168.1.3:8080/locations/device");
+            URL  url = new URL("http://appdatahandler.azurewebsites.net/Api/location?username=Mylapore");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setAllowUserInteraction(false);
             connection.setInstanceFollowRedirects(true);

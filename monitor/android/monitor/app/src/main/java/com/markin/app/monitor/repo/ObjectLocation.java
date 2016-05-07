@@ -3,12 +3,8 @@ package com.markin.app.monitor.repo;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.markin.app.monitor.model.DeviceLocation;
+import com.markin.app.monitor.model.Data;
 import com.markin.app.monitor.util.RestClient;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by salagumalai on 16-04-2016.
@@ -16,9 +12,9 @@ import java.util.List;
 public class ObjectLocation {
 
     private static final String TAG = "ObjectLocation";
-    private static final String PRODUCT_WEB_SERVICE_URL = "http://192.168.1.11:8080/JSON_RESTful_Service/rest/products";
+    private static final String PRODUCT_WEB_SERVICE_URL = "http://appdatahandler.azurewebsites.net/Api/location";
 
-    public DeviceLocation getLocationByDevice(){
+    public Data getLocationByDevice(){
         //setting header to request for a JSON response
         RestClient client = new RestClient();
         String locationJSONStr = client.getHttpResponse();
@@ -26,18 +22,16 @@ public class ObjectLocation {
         return convertJson(locationJSONStr);
     }
 
-    private DeviceLocation convertJson(String productJSONStr) {
-        DeviceLocation location = null;
+    private Data convertJson(String productJSONStr) {
+        Data data = null;
         if (productJSONStr != null && productJSONStr.length() > 0) {
             try {
                 Gson gson = new Gson();
-                location =
-                        gson.fromJson(productJSONStr, new TypeToken<DeviceLocation>() {
-                        }.getType());
+                data = gson.fromJson(productJSONStr, Data.class);
             } catch (IllegalStateException e) {
                 e.printStackTrace();
             }
         }
-        return location;
+        return data;
     }
 }
